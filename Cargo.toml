@@ -1,0 +1,28 @@
+[package]
+name = "colorgrad"
+version = "0.1.0"
+authors = ["Nor Khasyatillah <mazznoer@ymail.com>"]
+edition = "2021"
+description = "High performance color scales library, powered by Rust."
+readme = "README.md"
+repository = "https://github.com/mazznoer/colorgrad-js"
+license = "MIT OR Apache-2.0"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+default = ["named-colors", "console_error_panic_hook"]
+named-colors = ["colorgrad/named-colors"]
+
+[dependencies]
+colorgrad = { version = "0.6.1", default-features = false }
+console_error_panic_hook = { version = "0.1.1", optional = true }
+js-sys = "0.3.58"
+wasm-bindgen = { version = "0.2.81", features = ["serde-serialize"] }
+
+[profile.release]
+lto = true
+opt-level = 3
+codegen-units = 1
