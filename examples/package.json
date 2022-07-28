@@ -1,0 +1,13 @@
+{
+  "name": "colorgrad-test",
+  "private": true,
+  "type": "module",
+  "author": "Nor Khasyatillah",
+  "dependencies": {
+    "@mazznoer/colorgrad": "^0.1.0",
+    "benchmark": "^2.1.4",
+    "chroma-js": "^2.4.2",
+    "color-interpolate": "^1.0.5",
+    "tinygradient": "^1.1.5"
+  }
+}
