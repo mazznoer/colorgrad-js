@@ -5,7 +5,7 @@
 High performance color gradient library powered by [Rust](https://github.com/mazznoer/colorgrad-rs).
 
 * No dependencies.
-* Blazing fast.
+* Blazing fast. Much faster than [d3-scale](https://www.npmjs.com/package/d3-scale), [chroma-js](https://www.npmjs.com/package/chroma-js), [tinygradient](https://www.npmjs.com/package/tinygradient), [color-interpolate](https://www.npmjs.com/package/color-interpolate).
 * Blend modes: `rgb`, `linear-rgb`, `hsv`, `oklab`.
 * Interpolation modes: `linear`, `catmull-rom`, `basis`.
 
@@ -18,10 +18,11 @@ node bench.js
 ```
 
 ```
-@mazznoer/colorgrad x 3,533,086 ops/sec ±18.43% (56 runs sampled)
-chroma-js x 1,225,412 ops/sec ±1.18% (88 runs sampled)
-tinygradient x 361,808 ops/sec ±8.67% (82 runs sampled)
-color-interpolate x 969,589 ops/sec ±0.53% (85 runs sampled)
+@mazznoer/colorgrad x 3,545,478 ops/sec ±58.66% (63 runs sampled)
+chroma-js x 1,269,533 ops/sec ±1.27% (93 runs sampled)
+d3-scale x 1,833,694 ops/sec ±0.43% (91 runs sampled)
+tinygradient x 360,247 ops/sec ±1.26% (93 runs sampled)
+color-interpolate x 933,391 ops/sec ±1.81% (87 runs sampled)
 Fastest is @mazznoer/colorgrad
 ```
 
@@ -79,7 +80,7 @@ console.log(g.at(0.5).hex());
 
 ## Similar Projects
 
-* [colorgrad](https://github.com/mazznoer/colorgrad) (Rust)
+* [colorgrad](https://github.com/mazznoer/colorgrad-rs) (Rust)
 * [colorgrad](https://github.com/mazznoer/colorgrad) (Go)
 * [chroma.js](https://gka.github.io/chroma.js/#color-scales) (Javascript)
 * [d3-scale-chromatic](https://github.com/d3/d3-scale-chromatic/) (Javascript)
