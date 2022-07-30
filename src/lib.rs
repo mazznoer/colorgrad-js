@@ -12,6 +12,12 @@ pub struct Color(colorgrad::Color);
 
 #[wasm_bindgen]
 impl Color {
+    pub fn parse(s: &str) -> Result<Color, js_sys::Error> {
+        let col =
+            colorgrad::Color::from_html(s).map_err(|e| js_sys::Error::new(&format!("{}", e)))?;
+        Ok(Self(col))
+    }
+
     pub fn rgba(&self) -> js_sys::Array {
         self.0.to_array().into_iter().map(JsValue::from).collect()
     }
