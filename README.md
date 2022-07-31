@@ -2,10 +2,10 @@
 
 [![npm](https://img.shields.io/npm/v/@mazznoer/colorgrad.svg)](https://www.npmjs.com/package/@mazznoer/colorgrad)
 
-High performance color gradient library powered by [Rust](https://github.com/mazznoer/colorgrad-rs).
+High-performance Javascript color gradient library powered by [Rust](https://github.com/mazznoer/colorgrad-rs) + WebAssembly.
 
 * No dependencies.
-* Blazing fast. Much faster than [d3-scale](https://www.npmjs.com/package/d3-scale), [chroma-js](https://www.npmjs.com/package/chroma-js), [tinygradient](https://www.npmjs.com/package/tinygradient), [color-interpolate](https://www.npmjs.com/package/color-interpolate).
+* Faster than [d3-scale](https://www.npmjs.com/package/d3-scale), [chroma-js](https://www.npmjs.com/package/chroma-js), [tinygradient](https://www.npmjs.com/package/tinygradient), [color-interpolate](https://www.npmjs.com/package/color-interpolate).
 * Blend modes: `rgb`, `linear-rgb`, `hsv`, `oklab`.
 * Interpolation modes: `linear`, `catmull-rom`, `basis`.
 
@@ -16,6 +16,8 @@ cd examples
 npm install
 node bench.js
 ```
+
+**Result**
 
 ```
 @mazznoer/colorgrad x 3,545,478 ops/sec ±58.66% (63 runs sampled)
@@ -76,6 +78,17 @@ let g = colorgrad.custom_gradient(["deeppink", "gold", "seagreen"], null, "oklab
 let g = colorgrad.rainbow();
 
 console.log(g.at(0.5).hex());
+```
+
+## Building
+
+Requirements:
++ [Rust](https://www.rust-lang.org/tools/install)
++ [wasm-pack](https://github.com/rustwasm/wasm-pack)
+
+```shell
+cd colorgrad-js
+wasm-pack build --target nodejs
 ```
 
 ## Similar Projects
