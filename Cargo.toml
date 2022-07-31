@@ -3,11 +3,15 @@ name = "colorgrad"
 version = "0.1.0"
 authors = ["Nor Khasyatillah <mazznoer@ymail.com>"]
 edition = "2021"
-description = "High performance color scales library, powered by Rust."
+description = "High-performance Javascript color gradient library, powered by Rust + WebAssembly."
 readme = "README.md"
 repository = "https://github.com/mazznoer/colorgrad-js"
 license = "MIT OR Apache-2.0"
 publish = false
+keywords = [
+  "color", "colour", "colormap", "color gradient", "color scale",
+  "gradient", "graphic", "plot", "visualization", "WebAssembly", "wasm"
+]
 
 [lib]
 crate-type = ["cdylib"]
