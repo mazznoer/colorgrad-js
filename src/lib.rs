@@ -48,10 +48,12 @@ impl Gradient {
         Color(self.0.at(t))
     }
 
+    #[wasm_bindgen(js_name = repeatAt)]
     pub fn repeat_at(&self, t: f64) -> Color {
         Color(self.0.repeat_at(t))
     }
 
+    #[wasm_bindgen(js_name = reflectAt)]
     pub fn reflect_at(&self, t: f64) -> Color {
         Color(self.0.reflect_at(t))
     }
@@ -89,7 +91,7 @@ pub fn cividis() -> Gradient {
     Gradient(colorgrad::cividis())
 }
 
-#[wasm_bindgen]
+#[wasm_bindgen(js_name = cubehelixDefault)]
 pub fn cubehelix_default() -> Gradient {
     Gradient(colorgrad::cubehelix_default())
 }
@@ -104,7 +106,7 @@ pub fn warm() -> Gradient {
     Gradient(colorgrad::warm())
 }
 
-#[wasm_bindgen]
+#[wasm_bindgen(js_name = customGradient)]
 pub fn custom_gradient(
     colors: JsValue,
     domain: JsValue,
@@ -160,7 +162,7 @@ pub fn custom_gradient(
     Ok(Gradient(grad))
 }
 
-#[wasm_bindgen]
+#[wasm_bindgen(js_name = parseGGR)]
 pub fn parse_ggr(
     ggr: String,
     foreground: Option<String>,
