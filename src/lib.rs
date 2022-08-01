@@ -26,8 +26,32 @@ impl Color {
         self.0.to_rgba8().into_iter().map(JsValue::from).collect()
     }
 
+    pub fn rgba16(&self) -> js_sys::Array {
+        self.0.to_rgba16().into_iter().map(JsValue::from).collect()
+    }
+
+    pub fn hsva(&self) -> js_sys::Array {
+        let (h, s, v, a) = self.0.to_hsva();
+        [h, s, v, a].into_iter().map(JsValue::from).collect()
+    }
+
+    pub fn hsla(&self) -> js_sys::Array {
+        let (h, s, l, a) = self.0.to_hsla();
+        [h, s, l, a].into_iter().map(JsValue::from).collect()
+    }
+
+    pub fn hwba(&self) -> js_sys::Array {
+        let (h, w, b, a) = self.0.to_hwba();
+        [h, w, b, a].into_iter().map(JsValue::from).collect()
+    }
+
     pub fn hex(&self) -> String {
         self.0.to_hex_string()
+    }
+
+    #[wasm_bindgen(js_name = rgbString)]
+    pub fn rgb_string(&self) -> String {
+        self.0.to_rgb_string()
     }
 }
 
