@@ -53,6 +53,19 @@ impl Color {
     pub fn rgb_string(&self) -> String {
         self.0.to_rgb_string()
     }
+
+    pub fn luminance(&self) -> f64 {
+        // http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+        fn lum(t: f64) -> f64 {
+            if t <= 0.03928 {
+                t / 12.92
+            } else {
+                ((t + 0.055) / 1.055).powf(2.4)
+            }
+        }
+
+        0.2126 * lum(self.0.r) + 0.7152 * lum(self.0.g) + 0.0722 * lum(self.0.b)
+    }
 }
 
 #[wasm_bindgen]
