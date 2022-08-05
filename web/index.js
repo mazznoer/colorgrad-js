@@ -1,28 +1,31 @@
 import * as colorgrad from "colorgrad";
 
-let width = window.innerWidth;
-let height = 70;
+let gradient = null;
 
-let canvas = document.getElementById('canvas');
-let ctx = canvas.getContext('2d');
+const width = window.innerWidth;
+const height = 70;
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
 canvas.width = width;
 canvas.height = height;
-let canvasWidth = canvas.width;
-let canvasHeight = canvas.height;
+const canvasWidth = canvas.width;
+const canvasHeight = canvas.height;
 
-let canvas_g = document.createElement('canvas');
-let ctx_g = canvas_g.getContext('2d');
+const canvas_g = document.createElement('canvas');
+const ctx_g = canvas_g.getContext('2d');
 canvas_g.width = width;
 canvas_g.height = 1;
 
-let colors = document.getElementById('colors');
-let position = document.getElementById('position');
-let blend = document.getElementById('blend-mode');
-let interp = document.getElementById('interpolation-mode');
-let sharp = document.getElementById('sharp');
-let sharp_segment = document.getElementById('sharp-segment');
-let sharp_smoothness = document.getElementById('sharp-smoothness');
-let print_setting = document.getElementById('print-settings');
+const colors = document.getElementById('colors');
+const position = document.getElementById('position');
+const blend = document.getElementById('blend-mode');
+const interp = document.getElementById('interpolation-mode');
+const sharp = document.getElementById('sharp');
+const sharp_segment = document.getElementById('sharp-segment');
+const sharp_smoothness = document.getElementById('sharp-smoothness');
+const print_setting = document.getElementById('print-settings');
+const get_colors = document.getElementById('get-colors');
 
 class Konsole {
     constructor(el) {
@@ -58,17 +61,19 @@ function update(drawg = true) {
     let shps = sharp_smoothness.value;
 
     try {
-        let grad = colorgrad.customGradient(cols, pos, bld, intp);
+        gradient = colorgrad.customGradient(cols, pos, bld, intp);
         if (shp) {
-            grad = grad.sharp(shpc, shps);
+            gradient = gradient.sharp(shpc, shps);
         }
         if (drawg) {
-            draw(grad);
+            draw(gradient);
         } else {
             konsole.log(`colors: [${cols.map(x => `"${x}"`).join(', ')}]\npositions: [${pos.join(', ')}]`.trim());
         }
+        print_colors(gradient.colors(get_colors.value));
     } catch (e) {
         konsole.error(e);
+        gradient = null;
     }
 }
 
@@ -98,6 +103,17 @@ function draw(grad) {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 }
 
+function print_colors(colors) {
+    let html = colors
+        .map(c => {
+            const fg = c.luminance() > 0.3 ? "#000" : "#fff";
+            const hex = c.hex();
+            return `<span style="background:${hex};color:${fg};">"${hex}"</span>`;
+        })
+        .join(`, `);
+    document.getElementById("colors-out").innerHTML = `[${html}]`;
+}
+
 colors.addEventListener('change', () => update());
 position.addEventListener('change', () => update());
 blend.addEventListener('change', () => update());
@@ -106,6 +122,13 @@ sharp.addEventListener('change', () => update());
 sharp_segment.addEventListener('change', () => update());
 sharp_smoothness.addEventListener('change', () => update());
 print_setting.addEventListener('click', () => update(false));
+
+get_colors.addEventListener('change', (e) => {
+    if (gradient == null) {
+        return;
+    };
+    print_colors(gradient.colors(e.target.value));
+});
 
 // trim whitespace, single quote, double quote
 function trim(s) {

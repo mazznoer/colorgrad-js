@@ -1,30 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
+
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Color Gradient</title>
-    <link rel="stylesheet" href="style.css?v1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css?v2">
 </head>
+
 <body>
-    <h1>COLOR GRADIENT</h1>
-    <canvas id='canvas'></canvas>
-    <div id="container">
-        <pre id='output'></pre>
-        <ul class="form">
-            <li>
-                <label>
+    <div id="wrapper">
+        <h1>COLOR GRADIENT</h1>
+        <canvas id='canvas'></canvas>
+        <div id="container">
+            <pre id='output'></pre>
+            <ul class="form">
+                <li>
                     <span>Colors</span>
-                    <textarea id='colors' spellcheck='false'>gold, "rgb(197,90,218)", #4198ea, hwb(260 30% 20%), #57ad8a, tomato</textarea>
-                </label>
-            </li>
-            <li>
-                <label>
+                    <textarea id='colors' spellcheck='false' rows=10 cols=10>red, "rgb(0,255,0)", hwb(240 0% 0%), #000</textarea>
+                </li>
+                <li>
                     <span>Position</span>
                     <input type="text" id='position' spellcheck='false' value="0, 1">
-                </label>
-            </li>
-            <li>
-                <label>
+                </li>
+                <li>
                     <span>Blend Mode</span>
                     <select id='blend-mode'>
                         <option value='rgb'>RGB</option>
@@ -32,44 +32,36 @@
                         <option value='hsv'>HSV</option>
                         <option value='oklab' selected>Oklab</option>
                     </select>
-                </label>
-            </li>
-            <li>
-                <label>
+                </li>
+                <li>
                     <span>Interpolation Mode</span>
                     <select id='interpolation-mode'>
                         <option value='linear'>Linear</option>
-                        <option value='catmull-rom' selected>Catmull-Rom</option>
-                        <option value='basis'>Basis</option>
+                        <option value='catmull-rom'>Catmull-Rom</option>
+                        <option value='basis' selected>Basis</option>
                     </select>
-                </label>
-            </li>
-            <li>
-                <label>
+                </li>
+                <li>
                     <span>Sharp</span>
                     <input type='checkbox' id='sharp'>
-                </label>
-            </li>
-            <li>
-                <label>
+                </li>
+                <li>
                     <span>Sharp Segment</span>
                     <input type='number' id='sharp-segment' value='19' min='2' max='200'>
-                </label>
-            </li>
-            <li>
-                <label>
+                </li>
+                <li>
                     <span>Sharp Smoothness</span>
                     <input type='range' id='sharp-smoothness' value='0' min='0' max='1' step='0.01'>
-                </label>
-            </li>
-            <li>
-                <label>
-                    <span></span>
-                    <button id='print-settings'>Print Settings</button>
-                </label>
-            </li>
-        </ul>
+                </li>
+            </ul>
+            <hr>
+            <div><input type='number' id='get-colors' value='10' min='2' max='1000'> colors from gradient:</div>
+            <div id="colors-out"></div>
+            <hr>
+            <button id='print-settings'>Print Settings</button>
+        </div>
     </div>
     <script src="./bootstrap.js"></script>
 </body>
+
 </html>

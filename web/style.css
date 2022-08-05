@@ -7,6 +7,11 @@ body {
     font-size: 0.9em;
 }
 
+#wrapper {
+    margin: 0 auto;
+    max-width: 1100px;
+}
+
 canvas {
     display: block;
     width: 100%;
@@ -18,11 +23,19 @@ canvas {
     background-repeat: repeat;
 }
 
+input[type="text"],
+textarea {
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    max-width: 700px;
+}
+
 input,
 textarea,
 select,
 button {
-    margin: 5px;
     padding: 3px 5px;
     background: #2f2f2f;
     color: #bdbdbd;
@@ -30,14 +43,17 @@ button {
 }
 
 textarea {
-    width: 700px;
-    height: 50px;
-    max-width: 100%;
+    height: 80px;
 }
 
-input[type="text"] {
-    width: 700px;
-    max-width: 100%;
+input[type="text"] {}
+
+input[type="number"] {
+    max-width: 70px;
+}
+
+select {
+    min-width: 130px;
 }
 
 h1,
@@ -60,21 +76,46 @@ h1 {
 
 ul.form {
     padding: 0;
+    margin: 0;
 }
 
 ul.form li {
     border-bottom: 1px solid #292929;
     display: block;
     list-style: none;
+    padding: 5px 0;
+    margin: 0;
+}
+
+ul.form li:last-child {
+    border-bottom: none;
 }
 
 ul.form li label {
     display: inline-block;
     padding: 5px;
+    width: 100%;
 }
 
-ul.form li label span {
+ul.form li span {
     display: inline-block;
     min-width: 180px;
     vertical-align: top;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #404040;
+    margin: 15px 0;
+}
+
+#colors-out {
+    font-family: monospace;
+    color: #fff;
+    margin: 15px 0;
+    line-height: 23px;
+}
+
+#colors-out span {
+    padding: 1px 3px;
 }
