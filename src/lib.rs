@@ -14,7 +14,7 @@ pub struct Color(colorgrad::Color);
 impl Color {
     pub fn parse(s: &str) -> Result<Color, js_sys::Error> {
         let col =
-            colorgrad::Color::from_html(s).map_err(|e| js_sys::Error::new(&format!("{}", e)))?;
+            colorgrad::Color::from_html(s).map_err(|e| js_sys::Error::new(&format!("{e}")))?;
         Ok(Self(col))
     }
 
@@ -62,10 +62,7 @@ pub struct Gradient(colorgrad::Gradient);
 impl Gradient {
     pub fn domain(&self) -> js_sys::Array {
         let (dmin, dmax) = self.0.domain();
-        let ar = js_sys::Array::new_with_length(2);
-        ar.set(0, JsValue::from(dmin));
-        ar.set(1, JsValue::from(dmax));
-        ar
+        [dmin, dmax].into_iter().map(JsValue::from).collect()
     }
 
     pub fn at(&self, t: f64) -> Color {
@@ -82,12 +79,12 @@ impl Gradient {
         Color(self.0.reflect_at(t))
     }
 
-    pub fn colors(&self, n: u32) -> js_sys::Array {
-        let ar = js_sys::Array::new_with_length(n);
-        for (i, col) in self.0.colors(n as usize).into_iter().enumerate() {
-            ar.set(i as u32, JsValue::from(Color(col)));
-        }
-        ar
+    pub fn colors(&self, n: usize) -> js_sys::Array {
+        self.0
+            .colors(n)
+            .into_iter()
+            .map(|c| JsValue::from(Color(c)))
+            .collect()
     }
 
     pub fn sharp(&self, segment: u16, smoothness: f64) -> Gradient {
@@ -140,21 +137,23 @@ pub fn custom_gradient(
     set_panic_hook();
 
     if colors.is_undefined() || colors.is_null() {
-        return Err(js_sys::Error::new(&format!("colors not specified")));
+        return Err(js_sys::Error::new("colors not specified"));
     }
 
     let colors: Vec<String> = colors
         .into_serde()
-        .map_err(|e| js_sys::Error::new(&format!("{}", e)))?;
+        .map_err(|e| js_sys::Error::new(&format!("{e}")))?;
+
+    let colors: Vec<&str> = colors.iter().map(|s| s as &str).collect();
 
     let mut gb = colorgrad::CustomGradient::new();
-    let colors: Vec<&str> = colors.iter().map(|s| s as &str).collect();
+
     gb.html_colors(&colors);
 
     if !domain.is_undefined() && !domain.is_null() {
         let domain: Vec<f64> = domain
             .into_serde()
-            .map_err(|e| js_sys::Error::new(&format!("{}", e)))?;
+            .map_err(|e| js_sys::Error::new(&format!("{e}")))?;
         gb.domain(&domain);
     }
 
@@ -181,7 +180,7 @@ pub fn custom_gradient(
 
     let grad = gb
         .build()
-        .map_err(|e| js_sys::Error::new(&format!("{}", e)))?;
+        .map_err(|e| js_sys::Error::new(&format!("{e}")))?;
 
     Ok(Gradient(grad))
 }
@@ -195,19 +194,19 @@ pub fn parse_ggr(
     set_panic_hook();
 
     let fg = if let Some(s) = foreground {
-        colorgrad::Color::from_html(s).map_err(|e| js_sys::Error::new(&format!("{}", e)))?
+        colorgrad::Color::from_html(s).map_err(|e| js_sys::Error::new(&format!("{e}")))?
     } else {
         colorgrad::Color::new(0.0, 0.0, 0.0, 1.0)
     };
 
     let bg = if let Some(s) = background {
-        colorgrad::Color::from_html(s).map_err(|e| js_sys::Error::new(&format!("{}", e)))?
+        colorgrad::Color::from_html(s).map_err(|e| js_sys::Error::new(&format!("{e}")))?
     } else {
         colorgrad::Color::new(1.0, 1.0, 1.0, 1.0)
     };
 
     let (grad, _name) = colorgrad::parse_ggr(BufReader::new(ggr.as_bytes()), &fg, &bg)
-        .map_err(|e| js_sys::Error::new(&format!("{}", e)))?;
+        .map_err(|e| js_sys::Error::new(&format!("{e}")))?;
 
     Ok(Gradient(grad))
 }
