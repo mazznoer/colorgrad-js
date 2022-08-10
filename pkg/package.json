@@ -1,0 +1,36 @@
+{
+  "name": "colorgrad-js",
+  "collaborators": [
+    "Nor Khasyatillah <mazznoer@ymail.com>"
+  ],
+  "description": "High-performance color gradient library, powered by Rust + WebAssembly.",
+  "version": "0.1.0",
+  "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mazznoer/colorgrad-js"
+  },
+  "files": [
+    "*/*.js",
+    "*/*.ts",
+    "*/*.wasm",
+    "*/package.json",
+    "LICENSE*"
+  ],
+  "main": "node/colorgrad.js",
+  "types": "node/colorgrad.d.ts",
+  "browser": "web/colorgrad.js",
+  "keywords": [
+    "color",
+    "colour",
+    "colormap",
+    "color gradient",
+    "color scale",
+    "gradient",
+    "graphic",
+    "plot",
+    "visualization",
+    "WebAssembly",
+    "wasm"
+  ]
+}
