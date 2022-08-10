@@ -1,14 +1,19 @@
 #!/usr/bin/env node
 
-import colorgrad from "@mazznoer/colorgrad";
+import fs from "fs";
+import colorgrad from "colorgrad-js";
 
-let presets = ["sinebow", "rainbow", "turbo", "cividis", "cubehelix_default", "cool", "warm"];
+// Preset gradients
+
+let presets = ["sinebow", "rainbow", "turbo", "cividis", "cubehelixDefault", "cool", "warm"];
 
 for (let p of presets) {
-    let grad = colorgrad[p]();
+    const grad = colorgrad[p]();
     console.log("preset", p);
     display_gradient(grad);
 }
+
+// Custom gradients
 
 let data = [
     [
@@ -35,28 +40,35 @@ let data = [
 for (let d of data) {
     console.log(JSON.stringify(d));
     try {
-        let grad = colorgrad.custom_gradient(...d);
+        const grad = colorgrad.customGradient(...d);
         display_gradient(grad);
     } catch (e) {
         console.log("error:", e);
     }
 }
 
-let ggr_str = `
-GIMP Gradient
-Name: Abstract 1
-6
-0.000000 0.286311 0.572621 0.269543 0.259267 1.000000 1.000000 0.215635 0.407414 0.984953 1.000000 0 0 0 0
-0.572621 0.657763 0.716194 0.215635 0.407414 0.984953 1.000000 0.040368 0.833333 0.619375 1.000000 0 0 0 0
-0.716194 0.734558 0.749583 0.040368 0.833333 0.619375 1.000000 0.680490 0.355264 0.977430 1.000000 0 0 0 0
-0.749583 0.784641 0.824708 0.680490 0.355264 0.977430 1.000000 0.553909 0.351853 0.977430 1.000000 0 0 0 0
-0.824708 0.853088 0.876461 0.553909 0.351853 0.977430 1.000000 1.000000 0.000000 1.000000 1.000000 0 0 0 0
-0.876461 0.943172 1.000000 1.000000 0.000000 1.000000 1.000000 1.000000 1.000000 0.000000 1.000000 0 0 0 0`;
+// GIMP gradients
 
-console.log("GIMP gradient");
 try {
-    let ggr = colorgrad.parse_ggr(ggr_str.trim(), "000", "fff");
-    display_gradient(ggr);
+    fs.readFile("Abstract_1.ggr", "utf8", (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        console.log("Abstract_1.ggr");
+        const ggr = colorgrad.parseGGR(data, "000", "fff");
+        display_gradient(ggr);
+    });
+
+    fs.readFile("Full_saturation_spectrum_CW.ggr", "utf8", (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        console.log("Full_saturation_spectrum_CW.ggr");
+        const ggr = colorgrad.parseGGR(data, "000", "fff");
+        display_gradient(ggr);
+    });
 } catch (e) {
     console.log("error:", e);
 }
