@@ -1,4 +1,9 @@
-import * as colorgrad from "colorgrad";
+import init, * as colorgrad from "https://unpkg.com/colorgrad-js@0.1.0/web/colorgrad.js";
+import {
+    Konsole,
+    splitColors,
+    parsePos
+} from "./utils.js";
 
 let gradient = null;
 
@@ -27,27 +32,7 @@ const sharp_smoothness = document.getElementById('sharp-smoothness');
 const print_setting = document.getElementById('print-settings');
 const get_colors = document.getElementById('get-colors');
 
-class Konsole {
-    constructor(el) {
-        this.el = el;
-    }
-
-    clear() {
-        this.el.innerHTML = '';
-    }
-
-    log(msg) {
-        this.el.innerHTML = msg;
-    }
-
-    error(msg) {
-        this.el.innerHTML = `<span class='error'>${msg}</span>`;
-    }
-}
-
 const konsole = new Konsole(document.getElementById('output'));
-
-update();
 
 function update(drawg = true) {
     konsole.clear();
@@ -78,20 +63,16 @@ function update(drawg = true) {
 }
 
 function draw(grad) {
-    let imageData = ctx_g.getImageData(0, 0, canvasWidth, canvasHeight);
+    let imageData = ctx_g.getImageData(0, 0, width, 1);
     let buf = new ArrayBuffer(imageData.data.length);
     let buf8 = new Uint8ClampedArray(buf);
     let data = new Uint32Array(buf);
 
-    /*for (let y = 0; y < canvasHeight; ++y) {
-        for (let x = 0; x < canvasWidth; ++x) {
-            let [r, g, b, a] = grad.at(x / canvasWidth).rgba8();
-            data[y * canvasWidth + x] = (a << 24) | (b << 16) | (g << 8) | r;
-        }
-    }*/
+    const [dmin, dmax] = grad.domain();
+    const d = dmax - dmin;
 
-    for (let x = 0; x < canvasWidth; ++x) {
-        let [r, g, b, a] = grad.at(x / canvasWidth).rgba8();
+    for (let x = 0; x < width; ++x) {
+        let [r, g, b, a] = grad.at(dmin + (x / width) * d).rgba8();
         data[x] = (a << 24) | (b << 16) | (g << 8) | r;
     }
 
@@ -130,32 +111,9 @@ get_colors.addEventListener('change', (e) => {
     print_colors(gradient.colors(e.target.value));
 });
 
-// trim whitespace, single quote, double quote
-function trim(s) {
-    return s.replace(/(^['"\s]*|['"\s]*$)/g, "");
+async function run() {
+    await init();
+    update();
 }
 
-function splitColors(str) {
-    let colors = [];
-    // Regex taken from https://stackoverflow.com/a/53774647
-    for (let x of str.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)) {
-        let s = trim(x);
-        if (s == '') {
-            continue;
-        }
-        colors.push(s);
-    }
-    return colors;
-}
-
-function parsePos(str) {
-    let pos = [];
-    for (let x of str.split(',')) {
-        let s = x.trim();
-        if (s == '') {
-            continue;
-        }
-        pos.push(parseFloat(s));
-    }
-    return pos;
-}
+run();
