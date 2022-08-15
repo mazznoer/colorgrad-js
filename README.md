@@ -71,14 +71,12 @@ console.log(grad.colors(100).map(c => c.hex()));
 <head>
 <script type="module">
 
-import init, {
-    customGradient
-} from "./node_modules/colorgrad-js/web/colorgrad.js";
+import init, * as colorgrad from "https://unpkg.com/colorgrad-js@0.1.0/web/colorgrad.js";
 
 async function run() {
     await init();
 
-    const grad = customGradient(["#C41189", "#00BFFF", "#FFD700"], null, "oklab", "catmull-rom");
+    const grad = colorgrad.customGradient(["#C41189", "#00BFFF", "#FFD700"], null, "oklab", "catmull-rom");
     console.log(grad.at(0.75).rgba8());
     console.log(grad.colors(100).map(c => c.hex()));
 }
