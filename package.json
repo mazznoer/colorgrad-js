@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build-node":    "wasm-pack build --release -t nodejs  -d pkg/node",
+    "build-bundler": "wasm-pack build --release -t bundler -d pkg/bundler",
+    "build-web":     "wasm-pack build --release -t web     -d pkg/web"
+  }
+}
